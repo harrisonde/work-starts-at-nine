@@ -4,18 +4,13 @@ import (
 	"net"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 )
 
 func TestTrustedProxy_TrustedIPWithHTTPS(t *testing.T) {
 	// Set environment variables
-	os.Setenv("TRUSTED_PROXIES", "127.0.0.1")
-	os.Setenv("TRUST_PROXY_HEADERS", "proto,host")
-	defer func() {
-		os.Unsetenv("TRUSTED_PROXIES")
-		os.Unsetenv("TRUST_PROXY_HEADERS")
-	}()
+	t.Setenv("TRUSTED_PROXIES", "127.0.0.1")
+	t.Setenv("TRUST_PROXY_HEADERS", "proto,host")
 
 	m := &Middleware{}
 	var capturedRequest *http.Request
@@ -48,12 +43,8 @@ func TestTrustedProxy_TrustedIPWithHTTPS(t *testing.T) {
 }
 
 func TestTrustedProxy_UntrustedIPIgnored(t *testing.T) {
-	os.Setenv("TRUSTED_PROXIES", "127.0.0.1")
-	os.Setenv("TRUST_PROXY_HEADERS", "proto,host")
-	defer func() {
-		os.Unsetenv("TRUSTED_PROXIES")
-		os.Unsetenv("TRUST_PROXY_HEADERS")
-	}()
+	t.Setenv("TRUSTED_PROXIES", "127.0.0.1")
+	t.Setenv("TRUST_PROXY_HEADERS", "proto,host")
 
 	m := &Middleware{}
 	var capturedRequest *http.Request
@@ -86,12 +77,8 @@ func TestTrustedProxy_UntrustedIPIgnored(t *testing.T) {
 }
 
 func TestTrustedProxy_CIDRRange(t *testing.T) {
-	os.Setenv("TRUSTED_PROXIES", "192.168.1.0/24")
-	os.Setenv("TRUST_PROXY_HEADERS", "proto")
-	defer func() {
-		os.Unsetenv("TRUSTED_PROXIES")
-		os.Unsetenv("TRUST_PROXY_HEADERS")
-	}()
+	t.Setenv("TRUSTED_PROXIES", "192.168.1.0/24")
+	t.Setenv("TRUST_PROXY_HEADERS", "proto")
 
 	m := &Middleware{}
 	var capturedRequest *http.Request
@@ -114,12 +101,8 @@ func TestTrustedProxy_CIDRRange(t *testing.T) {
 }
 
 func TestTrustedProxy_SelectiveHeaders(t *testing.T) {
-	os.Setenv("TRUSTED_PROXIES", "127.0.0.1")
-	os.Setenv("TRUST_PROXY_HEADERS", "proto") // Only trust proto, not host
-	defer func() {
-		os.Unsetenv("TRUSTED_PROXIES")
-		os.Unsetenv("TRUST_PROXY_HEADERS")
-	}()
+	t.Setenv("TRUSTED_PROXIES", "127.0.0.1")
+	t.Setenv("TRUST_PROXY_HEADERS", "proto") // Only trust proto, not host
 
 	m := &Middleware{}
 	var capturedRequest *http.Request
@@ -172,12 +155,8 @@ func TestTrustedProxy_NoConfiguration(t *testing.T) {
 }
 
 func TestTrustedProxy_MultipleProxies(t *testing.T) {
-	os.Setenv("TRUSTED_PROXIES", "127.0.0.1,10.0.0.1")
-	os.Setenv("TRUST_PROXY_HEADERS", "proto")
-	defer func() {
-		os.Unsetenv("TRUSTED_PROXIES")
-		os.Unsetenv("TRUST_PROXY_HEADERS")
-	}()
+	t.Setenv("TRUSTED_PROXIES", "127.0.0.1,10.0.0.1")
+	t.Setenv("TRUST_PROXY_HEADERS", "proto")
 
 	m := &Middleware{}
 

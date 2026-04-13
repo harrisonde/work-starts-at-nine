@@ -29,7 +29,7 @@ func (h *Handlers) writeJSON(w http.ResponseWriter, status int, data interface{}
 }
 
 // WsanRoot returns the service banner.
-func (h *Handlers) WsanRoot(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) WsanRoot(w http.ResponseWriter, _ *http.Request) {
 	if err := h.writeJSON(w, http.StatusOK, wsanMessage{
 		Message:  "WSAN v0.1.0 — Work Starts At Nine",
 		Subtitle: "Reminding people since 9:00 AM",
@@ -39,7 +39,7 @@ func (h *Handlers) WsanRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 // WsanNotFound returns a 404 JSON envelope for unmatched /api routes.
-func (h *Handlers) WsanNotFound(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) WsanNotFound(w http.ResponseWriter, _ *http.Request) {
 	if err := h.writeJSON(w, http.StatusNotFound, wsanMessage{
 		Message:  "Not found. But work still starts at 9.",
 		Subtitle: "— WSAN",
@@ -49,7 +49,7 @@ func (h *Handlers) WsanNotFound(w http.ResponseWriter, r *http.Request) {
 }
 
 // WsanOperations lists every operation registered via RegisterOp.
-func (h *Handlers) WsanOperations(w http.ResponseWriter, r *http.Request) {
+func (h *Handlers) WsanOperations(w http.ResponseWriter, _ *http.Request) {
 	if err := h.writeJSON(w, http.StatusOK, AllOps()); err != nil && h.App != nil && h.App.Log != nil {
 		h.App.Log.Error("wsan writeJSON:", err)
 	}

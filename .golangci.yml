@@ -1,18 +1,21 @@
+version: "2"
+
 run:
   timeout: 5m
 
 linters:
-  disable-all: true
+  default: none
   enable:
-    - govet
-    - staticcheck
     - errcheck
-    - gosimple
+    - govet
     - ineffassign
-    - unused
-    - gofmt
     - revive
+    - staticcheck
+    - unused
+  exclusions:
+    paths:
+      - tmp
 
-issues:
-  exclude-dirs:
-    - tmp
+formatters:
+  enable:
+    - gofmt

@@ -1,3 +1,4 @@
+// Package main is the WSAN application entrypoint.
 package main
 
 import (
